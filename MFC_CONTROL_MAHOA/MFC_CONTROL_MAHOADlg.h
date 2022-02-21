@@ -45,4 +45,5 @@ public:
 	afx_msg void OnCbnSelendokCbbKey();
 	afx_msg void OnFileEdit();
 	afx_msg void OnFileExit();
+	afx_msg void OnEnChangeDataOut();
 };

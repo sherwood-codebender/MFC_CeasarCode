@@ -80,6 +80,7 @@ BEGIN_MESSAGE_MAP(CMFCCONTROLMAHOADlg, CDialogEx)
 	ON_CBN_SELENDOK(IDC_CBB_KEY, &CMFCCONTROLMAHOADlg::OnCbnSelendokCbbKey)
 	ON_COMMAND(ID_FILE_EDIT, &CMFCCONTROLMAHOADlg::OnFileEdit)
 	ON_COMMAND(ID_FILE_EXIT, &CMFCCONTROLMAHOADlg::OnFileExit)
+	ON_EN_CHANGE(IDC_DATA_OUT, &CMFCCONTROLMAHOADlg::OnEnChangeDataOut)
 END_MESSAGE_MAP()
 
 
@@ -175,6 +176,32 @@ HCURSOR CMFCCONTROLMAHOADlg::OnQueryDragIcon()
 void CMFCCONTROLMAHOADlg::OnBnClickedBtnEncrypt()
 {
 	// TODO: Add your control notification handler code here
+	CString dataIn, mahoa = NULL, chuoisauMaHoa = NULL;
+	m_txt_data_in.GetWindowTextW(dataIn);
+	int chieuDaiChuoi_in = dataIn.GetLength();
+	int sizeArr = sizeof(arrMahoa) / sizeof(arrMahoa[0]);
+	int dem = 0, check = 0;
+	for (int i = 0; i < chieuDaiChuoi_in; i++) {
+		mahoa = dataIn.GetAt(i);
+		check = 0;
+		for (int j = 0; j < sizeArr; j++) {
+			if (arrMahoa[j].CompareNoCase(mahoa) == 0)
+			{
+				dem = j + 3;
+				if (dem >= 24)
+				{
+					dem -= 27;
+				}
+				chuoisauMaHoa += arrMahoa[dem];
+				check += 1;
+				break;
+			}
+		}
+		if (check == 0) {
+			chuoisauMaHoa += mahoa;
+		}
+	}
+	m_txt_data_out.SetWindowTextW(chuoisauMaHoa);
 }
 
 
@@ -249,4 +276,15 @@ void CMFCCONTROLMAHOADlg::OnFileEdit()
 void CMFCCONTROLMAHOADlg::OnFileExit()
 {
 	// TODO: Add your command handler code here
+}
+
+
+void CMFCCONTROLMAHOADlg::OnEnChangeDataOut()
+{
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CDialogEx::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Add your control notification handler code here
 }
